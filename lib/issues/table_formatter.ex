@@ -1,6 +1,10 @@
 defmodule Issues.TableFormatter do
 	import Enum, only: [ each: 2, map: 2, map_join: 3, max: 1 ]
 
+	def print_table_for_columns([],_) do
+		IO.puts "0 issues, congrats !"
+	end
+
 	def print_table_for_columns(rows, headers) do
 		data_by_columns = split_into_columns(rows, headers)
 		column_widths		= widths_of(data_by_columns)
@@ -19,6 +23,8 @@ defmodule Issues.TableFormatter do
 	def printable(str) when is_binary(str), do: str
 
 	def printable(str), do: to_string(str)
+
+	def widths_of([[],[],[]]), do: 10
 
 	def widths_of(columns) do
 		for column <- columns, do: column |> map(&String.length/1) |> max
